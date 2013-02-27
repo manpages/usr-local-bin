@@ -1,0 +1,2 @@
+#!/bin/bash
+du -bc "$1" | cut -f 1 --output-delimiter=" " | head -1

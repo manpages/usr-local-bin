@@ -1,0 +1,8 @@
+#!/bin/bash
+Bytesize=$(bytesize "$1")
+[[ -z $Bytesize ]] && Bytesize=0 
+
+read -n1 -p "Do you really want to copy file $1 to $2? [yN]" Ok
+echo
+
+[[ $Ok =~ ^[yY]$ ]] && dd if="$1" | pv -s $Bytesize | dd of="$2"
