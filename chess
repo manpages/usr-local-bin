@@ -1,0 +1,44 @@
+#!/bin/bash
+clear
+echo "After first move of white, press a key to start the clock."
+read -n 1
+let "seconds=60*$1"
+base=$([ -z $seconds ] && echo 2400 || echo $seconds)
+let "minutes=$base/60"
+plus=$([ -z $2 ] && echo 30   || echo $2)
+white=$base
+black=$base
+mone=-1
+result=""
+export active=-1 # 1 = white; -1 = black
+export tldr="The game result is:"
+while [ -z $result ]; do
+  trap "echo && [ ${active} == 1 ] && echo \"${tldr} 0-1.\" || echo \"${tldr} 1-0.\"" 0
+  pressed=""
+  colour=$([ $active == 1 ] && echo white || echo black)
+  clear
+  echo "[${minutes}m + ${plus}s] white: $white | black: $black | ($colour) "
+  read -n 1 -t 1 pressed
+  if [ -z $pressed ]; then
+    if [ $active == 1 ]; then
+      if (( $white <= 0 )); then
+        echo "Black wins by clock."
+        result="0-1"
+      fi
+      let "white=$white-1"
+    else
+      if (( $black <= 0 )); then
+        echo "White wins by clock."
+        result="1-0"
+      fi
+      let "black=$black-1"
+    fi
+  else
+    if [ $active == 1 ]; then
+      let "white=$white+$plus"
+    else
+      let "black=$black+$plus"
+    fi
+    let "active=$active*$mone"
+  fi
+done
