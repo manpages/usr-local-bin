@@ -1,0 +1,3 @@
+ssh -p21984 memorici.de '[ -z $(pgrep mpdscribble) ] && mpdscribble --conf .mpd/scribble.conf'
+mplayer http://memorici.de:22008
+ssh -p21984 memorici.de 'killall -r mpdscribble'
