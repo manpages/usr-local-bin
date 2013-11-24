@@ -1,4 +1,15 @@
 #!/bin/bash
+function trap_print_result {
+  result=$1
+  active=$2
+  tldr="The game result is:"
+  if [ $result == "resignation" ]; then
+    [ ${active} == 1 ] && echo "${tldr} 0-1." || echo "${tldr} 1-0."
+  else
+    echo "${tldr} ${result}."
+  fi
+}
+
 clear
 echo "After first move of white, press a key to start the clock."
 read -n 1
@@ -9,11 +20,10 @@ plus=$([ -z $2 ] && echo 30   || echo $2)
 white=$base
 black=$base
 mone=-1
-result=""
+export result=""
 export active=-1 # 1 = white; -1 = black
-export tldr="The game result is:"
 while [ -z $result ]; do
-  trap "echo && [ ${active} == 1 ] && echo \"${tldr} 0-1.\" || echo \"${tldr} 1-0.\"" 0
+  trap "trap_print_result $([ -z $result ] && echo resignation || echo $result) $active" 0
   pressed=""
   colour=$([ $active == 1 ] && echo white || echo black)
   clear
@@ -23,22 +33,27 @@ while [ -z $result ]; do
     if [ $active == 1 ]; then
       if (( $white <= 0 )); then
         echo "Black wins by clock."
-        result="0-1"
+        export result="0-1"
       fi
       let "white=$white-1"
     else
       if (( $black <= 0 )); then
         echo "White wins by clock."
-        result="1-0"
+        export result="1-0"
       fi
       let "black=$black-1"
     fi
   else
-    if [ $active == 1 ]; then
-      let "white=$white+$plus"
+    if [ $pressed == "%" ]; then
+      export result="½-½"
     else
-      let "black=$black+$plus"
+      if [ $active == 1 ]; then
+        let "white=$white+$plus"
+      else
+        let "black=$black+$plus"
+      fi
+      let "active=$active*$mone"
     fi
-    let "active=$active*$mone"
   fi
 done
+trap "trap_print_result $([ -z $result ] && echo resignation || echo $result) $active" 0
