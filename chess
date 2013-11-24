@@ -11,7 +11,8 @@ function trap_print_result {
 }
 
 clear
-echo "After first move of white, press a key to start the clock."
+echo "After first move of white, press a key to start the clock.
+Press ^C to resign and % to accept draw offer."
 read -n 1
 let "seconds=60*$1"
 base=$([ -z $seconds ] && echo 2400 || echo $seconds)
