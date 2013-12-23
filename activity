@@ -1,0 +1,1 @@
+sqlite3 ~/github/mine/big-brother/bb.db "select (select datetime(utime, 'unixepoch', 'localtime')), name, cast(streak as float)/60 from activity order by utime asc;"
