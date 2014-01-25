@@ -1,0 +1,1 @@
+rsync -Pave 'ssh -p21984' $1 memorici.de:'$(echo $2)'
