@@ -1,0 +1,35 @@
+#!/bin/sh
+[ -z $1 ] || pacmd load-module module-loopback channels=1
+#if [ ! -z $1 ]; then
+#    echo "Starting null sink..."
+#    pacmd load-module module-null-sink sink_name=mix 
+#    echo "Starting loopback..."
+#    pacmd load-module module-loopback sink=mix 
+#    _slaves=""
+#    for sinkid in $(pacmd list-sinks | grep index | grep -oE "[0-9]*$"); do
+#      [ -z $_slaves ] && _slaves="${sinkid}" || _slaves="${_slaves},${sinkid}"
+#    done
+#    echo "Starting combine sink..."
+#    pacmd load-module module-combine-sink sink_name=wut slaves=${_slaves}
+#    echo "Done!"
+#fi
+
+  FULLSCREEN="$(xrandr | grep "*+" | grep -oE "[0-9]+x[0-9]+")"
+  INRES=$FULLSCREEN 
+  OUTRES="910x512"
+  OFFSET="0,0"
+  FPS="5" 
+  QUAL="fast"
+  STREAM_KEY=$(cat ~/.twitch_key) 
+
+  ffmpeg -f x11grab -s "$INRES" -r "$FPS" -i :0.0+${OFFSET} \
+   -f alsa -ac 2 -i pulse -vcodec libx264 -crf 30 -preset "$QUAL" -s "$OUTRES" -pix_fmt yuv420p \
+   -acodec libmp3lame -ab 128k -ar 44100 -threads 0 \
+   -f flv "rtmp://live.justin.tv/app/$STREAM_KEY" 
+
+if [ ! -z $1 ]; then
+  pacmd unload-module module-combine-sink
+  pacmd unload-module module-loopback
+  pacmd unload-module module-null-sink
+fi
+[ -z $1 ] || pacmd unload-module module-loopback
