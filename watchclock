@@ -1,0 +1,5 @@
+#!/bin/bash
+## Example: watchclock "America/Vancouver"
+#tzselect
+TZ='America/Vancouver'; export TZ
+watch 'echo "${TZ}: `date +\"%F %R (%Z)\"`" |figlet'
