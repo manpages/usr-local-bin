@@ -1,0 +1,1 @@
+for d in $(ls -1 / | grep -v home); do sudo find /$d -name "$1"; done
