@@ -1,0 +1,3 @@
+[ -z "$3" ] && echo "USAGE: refactor from to in. Escape /s" && exit
+
+eval "find -type f -name \"$3\" -exec sed -i 's#${1}#${2}#g' {} \;"

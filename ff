@@ -1,0 +1,3 @@
+#!/bin/bash
+firefox
+rm -rf "/home/sweater/.vimperator/info/default"

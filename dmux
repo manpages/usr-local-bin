@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+#dmux is shell tmuxinator for a generic project 
+_session="$(basename "$1")"
+tmux start-server\; has-session -t "$_session" 2>/dev/null
+
+if [ "$?" -eq 1 ]; then #and
+if [ ! -z "$1" ]; then 
+  cd "$1"
+  _wd="$(pwd)"
+
+  TMUX="$(tmux new-session -d -s "$_session" -n project)"
+  tmux new-window -c "$_wd" -t "${_session}:1" -n templates
+  tmux new-window -c "$_wd" -t "${_session}:2" -n build
+  tmux new-window -c "$_wd" -t "${_session}:3" -n git
+  tmux new-window -c "$_wd" -t "${_session}:4" -n zsh
+  tmux new-window -c "$_wd" -t "${_session}:5" -n mon0
+  tmux new-window -c "$_wd" -t "${_session}:6" -n mon1
+
+  tmux send-keys -t "${_session}:0" "cd apps || cd app || cd lib || cd src || cd source" C-m "vim ." C-m
+  tmux send-keys -t "${_session}:2" "git log --graph --decorate --all -n7 | grep ." C-m
+
+  tmux select-window -t 0
+fi 
+fi
+
+if [ "$2" == "-d" ]; then  
+  exit 0;
+fi  
+if [ -z "$TMUX" ]; then
+  tmux -u attach-session -t "${_session}"
+else
+  tmux -u switch-client -t "${_session}"
+fi

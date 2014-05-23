@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+cd /home/sweater/memoricide
+for x in $(ls -1t ./ | head -n 5); do 
+  echo "Starting tmux for ${x}"
+  ( eval "$(/home/sweater/.rbenv/versions/2.1.1/bin/mux debug "$x" | head -n -6)" )
+  /home/sweater/.sh/shmux "$x" -d
+done
