@@ -1,1 +1,3 @@
-rsync -Pave 'ssh -p21984' $1 memorici.de:'$(echo $2)'
+cmd="rsync -Pave 'ssh -p21984' $1 memorici.de:'$(echo -n $2)'"
+echo $cmd
+eval $cmd
