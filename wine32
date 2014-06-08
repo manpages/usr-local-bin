@@ -1,0 +1,1 @@
+WINEPREFIX='/home/sweater/.wine32' WINEARCH='win32' wine "$*"

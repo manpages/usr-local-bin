@@ -1,0 +1,58 @@
+#!/bin/bash
+
+read -d '' usage <<USAGE
+SYNTAX:
+forward user@rhost:rport%full_path_to_id_rsa forward_port
+DEFAULTS:
+forward rhost EXPANDS TO forward whoami@rhost:22%\${HOME}/.ssh/id_rsa $(shuf -i 20000-65000 -n 1)
+USAGE
+
+# Parsing.
+url="$1"
+user="$( [ -z "$(echo $url | grep @)" ] && echo -n                                                                            || echo $url              | cut -d@ -f1  )"
+url="$(  [ -z $user ]                   && echo $url                                                                          || echo -n ${url/$user@/}                )"
+host="$( [ -z "$(echo $url | grep :)" ] && echo "$([ -z "$(echo $url | grep %)" ] && echo $url  || echo $url | cut -d% -f1 )" || echo $url              | cut -d: -f1  )"
+url="$(  echo ${url/$host:/}  )"
+url="$(  echo ${url/$host/}   )"
+port="$( [ -z "$(echo $url | grep %)" ] && echo $url                                                                          || echo $url              | cut -d% -f1  )"
+pkey="$( echo ${url} | grep % | cut -d% -f2 )"
+
+relay_port="$2"
+
+# Validate args. 
+([ -z $1 ] || [ -z $host ]) && echo $usage 
+([ -z $1 ] || [ -z $host ]) && exit
+
+# Defaults.
+user="$( [ -z $user ] && whoami  || echo $user )"
+port="$( [ -z $port ] && echo 22 || echo $port )"
+pkey="$( [ -z $pkey ] && echo "${HOME}/.ssh/id_rsa" || echo $pkey)"
+local_port="$( [ -z $local_port ] && echo 22 || echo $local_port )"
+relay_port="$( [ -z $relay_port ] && shuf -i 20000-65000 -n 1 || echo $relay_port )"
+
+echo " * * * "
+
+echo "Running SSH port forwarding:"
+
+echo " * * * "
+
+echo "User:  $user"
+echo "Host:  $host"
+echo "Port:  $port"
+echo "PubID: $pkey"
+
+echo " * * * "
+
+echo "Forward port:  $relay_port"
+
+export AUTOSSH_PORT=0
+export AUTOSSH_GATETIME=0
+
+#cat <<ZOMG
+autossh -f -- -o'ControlPath none'           \
+    -N                                       \
+    -p ${port}                               \
+    -i "${pkey}"                             \
+    -D localhost:${relay_port}               \
+    ${user}@${host}                          
+#ZOMG

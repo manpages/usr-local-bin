@@ -1,0 +1,4 @@
+url=$1
+html=$(curl "$url")
+src=`echo $html | grep -o '<source src=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<source src=["'"'"']//' -e 's/["'"'"']$//' | head -n 1`
+proxychains mplayer "$src"
