@@ -1,0 +1,22 @@
+hour_init=1
+min_init=60
+sec_init=60
+hour=$hour_init
+min=15
+sec=0
+while [ $hour -gt 0 ] 
+do
+  while [ $min -gt 0 ]; do
+    while [ $sec -gt 0 ] 
+    do clear
+      echo "$hour:$min:$sec" | figlet
+      sleep 1
+      sec=$(($sec- 1))
+    done
+    sec=$sec_init
+    min=$(($min- 1))
+  done
+  hour=$(($hour- 1))
+  min=$min_init
+  sec=$sec_init
+done

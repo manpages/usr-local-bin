@@ -1,0 +1,1 @@
+curl -L "$1" | w3m -T text/html > "$( [ -z "$2" ] && "$(date --iso-8601=seconds)".url2text || "$2" )"

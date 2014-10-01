@@ -1,0 +1,14 @@
+is_charging="$(acpi | grep Charging)"
+percentage="$(acpi | grep -oE "[0-9]+%" | grep -oE "[0-9]+")"
+# http://f.nn.lv/nc/qy/hj/BattleCruiserOperational.wav
+warning_wav="/usr/local/share/sounds/BattleCruiserOperational.wav"
+if [ -z "${is_charging}" ]; then
+  (( $percentage <= 20 )) && \
+	( [ ! -f "/tmp/pm_job.aplay"   ] && ( touch "/tmp/pm_job.aplay"   && aplay "${warning_wav}" ) )
+  (( $percentage <= 15 )) && \
+	( [ ! -f "/tmp/pm_job.suspend" ] && ( touch "/tmp/pm_job.suspend" && systemctl suspend ) )
+  (( $percentage <=  5 )) && poweroff
+else
+  rm "/tmp/pm_job.aplay"
+  rm "/tmp/pm_job.suspend"
+fi

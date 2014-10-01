@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+i=$(($RANDOM % $(ls -1 | wc -l)))
+for x in ./*; do
+  i=$((i - 1))
+  if [ $i == 0 ]; then
+    echo "mplayer $MPLAYER_ARGS ./$x"
+    mplayer $MPLAYER_ARGS "./$x"
+  fi
+done

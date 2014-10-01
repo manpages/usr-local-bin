@@ -1,0 +1,10 @@
+[[ $1 == "--help" ]] && cat <<EOF && exit
+  USAGE:
+    resgrep name
+    pgreps for name and sums all the res reported by /proc/../smaps
+EOF
+__sum_expr="$( for x in $(pgrep "$1"); do
+  cat /proc/$x/smaps 2>/dev/null
+done | grep Rss | awk '{print $2}' | sed 's/^/+/' )"
+[ -z "$__sum_expr" ] && __sum=0 || let "__sum = ${__sum_expr}"
+echo "Memory used by all $([ -z "${1}" ] || echo "${1} ")processes: $__sum" 
