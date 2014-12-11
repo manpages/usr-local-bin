@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 vga_is=$([ -z $1 ] && echo above || echo $1)
 if [ $vga_is == "off" ]; then
   xrandr --output VGA1 --off

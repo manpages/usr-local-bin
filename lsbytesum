@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #     lsbytesum - sum the number of bytes in a directory listing
 TotalBytes=0
 for Bytes in $(ls -l | grep "^-" | awk '{ print $5 }')

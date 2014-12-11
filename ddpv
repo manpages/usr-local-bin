@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 Bytesize=$(bytesize "$1")
 [[ -z $Bytesize ]] && Bytesize=0 
 

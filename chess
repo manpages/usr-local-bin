@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 function trap_print_result {
   result=$1
   active=$2
