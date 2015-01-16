@@ -1,0 +1,6 @@
+[ -z $1 ] && ( echo "Not enough arguments" && exit ) || what=$1
+[ -z $2 ] && sig='-15' || sig=$2
+for x in $(pidof "$what"); do
+  echo "Signaling $x"
+  kill $sig $x
+done

@@ -1,4 +1,5 @@
+proxychains="/usr/bin/env proxychains4 -f $HOME/.proxychains.conf"
 url=$1
 html=$(curl "$url")
 src=`echo $html | grep -o '<source src=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<source src=["'"'"']//' -e 's/["'"'"']$//' | head -n 1`
-proxychains mplayer "$src"
+mplayer -fs -cache 4000 -nocorrect-pts "$src"

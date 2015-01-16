@@ -1,0 +1,6 @@
+[ -z $1 ] && ( echo "Not enough arguments" && exit ) || what=$1
+[ -z $2 ] && sig='-15' || sig=$2
+for x in $(pgrep "$what"); do
+  echo "Signaling $sig to $x"
+  kill $sig $x
+done

@@ -1,4 +1,3 @@
-#!/bin/bash
 ## Example: watchclock "America/Vancouver"
 #tzselect
 TZ='America/Vancouver'; export TZ
