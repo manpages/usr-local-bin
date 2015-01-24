@@ -1,0 +1,20 @@
+#!/usr/bin/env expect
+
+set ircNet  [lindex $argv 0]
+set ircPort [lindex $argv 1]
+set nick    "thelistbot"
+set user    "list 8 * : List Bot"
+
+puts "NICK $nick"
+puts "USER $user"
+
+spawn telnet $ircNet $ircPort
+
+sleep 3
+send "NICK $nick\r\n"
+sleep 1
+send "USER $user\r\n"
+sleep 1
+send "LIST\r\n"
+
+interact
