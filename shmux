@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #shmux is shell tmuxinator for a generic project 
 _session="$(basename "$1")"
+_session="${_session/./_}"
 tmux start-server\; has-session -t "$_session" 2>/dev/null
 
 if [ "$?" -eq 1 ]; then #and

@@ -1,0 +1,1 @@
+cabal2nix --sha256 0 --shell $1 | tee shell.nix
