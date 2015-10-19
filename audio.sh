@@ -28,7 +28,7 @@ AUDIO=alsa
 #Channels
 CHANNELS=2
 #SoundCard (pulse for pulseaudio, hw:0,1 for directly communicating with your soundcard - use aplay -l to see whats your value)
-SOUNDCARD=pulse
+SOUNDCARD=hw:0,1
 #Frames per second
 FPS=30
 #Constant Rate Factor(0 is the highest quality 50 is the lowest)
@@ -43,10 +43,10 @@ DIRECTORY=$HOME/Videos/
 FILENAME=audiocast`$DATE +%d%m%Y_%H.%M.%S`.ogg
 
 #script
-notify-send -t 1000 'FFmpeg Recording' 'Recording has started!'
+#notify-send -t 1000 'FFmpeg Recording' 'Recording has started!'
 aplay /usr/share/sounds/alsa/Rear_Center.wav
 $RECORDER -f $AUDIO -ac $CHANNELS -i $SOUNDCARD -threads $THREADS $DIRECTORY$FILENAME
-notify-send -t 1000 'FFmpeg Recording' 'Recording has stopped!'
+#notify-send -t 1000 'FFmpeg Recording' 'Recording has stopped!'
 
 
 #old examples

@@ -1,8 +1,8 @@
 function radio_do() {
 	ssh -p21984 $1 '[ -z $(pgrep mpdscribble) ] && mpdscribble --conf .mpd/scribble.conf'
-	$2 mplayer -cache 1000 http://$1:22008
+	$2 mplayer http://$1:22008
 	$2 ssh -p21984 $1 'killall -r mpdscribble'
 }
-radio_do localhost proxychains
+#radio_do localhost proxychains
 radio_do memorici.de
 ssh -p21984 memorici.de 'killall -r mpdscribble'
