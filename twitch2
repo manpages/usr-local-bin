@@ -1,0 +1,21 @@
+#!/bin/sh
+if [ ! -z $1 ]; then
+  pacmd load-module module-combine-sink
+  pacmd load-module module-loopback
+  pacmd load-module module-null-sink
+fi
+
+  FULLSCREEN="$(xrandr | grep "*+" | grep -oE "[0-9]+x[0-9]+")"
+  INRES="hd1080"
+  OUTRES="hd720"
+  #OFFSET="0,1920"
+  OFFSET="0,0"
+  FPS="30" 
+  QUAL="fast"
+  STREAM_KEY=$(cat ~/.twitch_key) 
+
+  ffmpeg -f x11grab -s "$INRES" -r "$FPS" -i :0.0+${OFFSET} \
+   -f alsa -ac 2 -i default \
+   -vcodec libx264 -crf 30 -preset "$QUAL" -s "$OUTRES" -pix_fmt yuv420p \
+   -acodec libmp3lame -ab 128k -ar 44100 -threads 0 \
+   -f flv "rtmp://live.justin.tv/app/$STREAM_KEY" 2>&1

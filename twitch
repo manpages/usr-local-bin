@@ -14,9 +14,9 @@
 #    echo "Done!"
 #fi
 
-  FULLSCREEN="$(xrandr | grep "*+" | grep -oE "[0-9]+x[0-9]+")"
-  INRES=$FULLSCREEN 
-  OUTRES="910x512"
+  #FULLSCREEN="$(xrandr | grep "*+" | grep -oE "[0-9]+x[0-9]+")"
+  INRES="hd1080"
+  OUTRES="hd720"
   OFFSET="0,0"
   FPS="5" 
   QUAL="fast"
@@ -32,4 +32,5 @@ if [ ! -z $1 ]; then
   pacmd unload-module module-loopback
   pacmd unload-module module-null-sink
 fi
+
 [ -z $1 ] || pacmd unload-module module-loopback

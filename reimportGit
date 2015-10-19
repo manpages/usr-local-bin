@@ -1,0 +1,3 @@
+git init
+git fetch --depth=1 -n "$1"
+git reset --hard $(git commit-tree FETCH_HEAD^{tree} -m "Initial code import")
