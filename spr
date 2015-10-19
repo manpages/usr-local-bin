@@ -1,0 +1,1 @@
+time $* 2>&1 | tee >(curl -F 'sprunge=<-' http://sprunge.us)
