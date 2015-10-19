@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+vga_is=$([ -z $1 ] && echo above || echo $1)
+if [ $vga_is == "off" ]; then
+  xrandr --output HDMI1 --off
+fi
+if [ $vga_is == "except" ]; then
+  xrandr --output eDP1 --auto; xrandr --output HDMI1 --auto; xrandr --output eDP1 --off
+else
+  xrandr --output eDP1 --auto;  xrandr --output HDMI1 --auto; xrandr --output HDMI1 --${vga_is} eDP1; xrandr --output HDMI1 --rotate normal
+fi
+~/.fehbg 2>/dev/null

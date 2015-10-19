@@ -1,4 +1,4 @@
-musicPath="/storage/external_SD/Music/Unsorted"
+musicPath="/sdcard/Music/Unsorted"
 toMake=$(basename "$1")
 adb shell mkdir "$musicPath/$toMake"
 adb push "$1" "$musicPath/$toMake"

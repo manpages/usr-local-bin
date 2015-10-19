@@ -1,0 +1,9 @@
+if [ -f ~/.ssh/config.local ]; then
+  echo "In the lab"
+  mv ~/.ssh/config{,.global}
+  mv ~/.ssh/config{.local,}
+else
+  echo "In the field"
+  mv ~/.ssh/config{,.local}
+  mv ~/.ssh/config{.global,}
+fi

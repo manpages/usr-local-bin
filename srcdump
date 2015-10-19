@@ -4,6 +4,8 @@ cd ~/.scraped
 url=$1
 html=$(curl "$url")
 src=`echo $html | grep -o '<source src=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<source src=["'"'"']//' -e 's/["'"'"']$//' | head -n 1`
-#wget "$src" -O "$(basename $src)" &
-mplayer -fs -cache 4000 -nocorrect-pts "$src"
+echo $src
+echo $url
+wget $src
+#mplayer -fs -cache 4000 -nocorrect-pts "$src"
 #mplayer -fs "./$(basename $src)"
