@@ -1,1 +1,9 @@
-forward sweater@memorici.de:21984%/home/sweater/.ssh/id_rsa 9050
+killall -r autossh
+case ${1} in
+  luna) forward manpages@popovs.lv:443 9050
+  ;;
+  lab)  forward sweater@192.168.1.10:21984 9050
+  ;;
+  *)    forward sweater@memorici.de:21984 9050
+  ;;
+esac
